@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(x, 0, z);
         transform.Translate(movement * speed * Time.deltaTime);
 
-        transform.Rotate(Vector3.up * x * z * Time.deltaTime * 150f);
+        transform.Rotate(Vector3.up * x * z * Time.deltaTime * 100f);
 
 
     }

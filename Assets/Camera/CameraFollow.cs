@@ -4,17 +4,50 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Transform target;
-    public Vector3 myCamPos = Vector3.zero;
-    void Start()
+    [SerializeField]
+    private Transform target;
+
+    [SerializeField]
+    private Vector3 offsetPosition;
+
+    [SerializeField]
+    private Space offsetPositionSpace = Space.Self;
+
+    [SerializeField]
+    private bool lookAt = true;
+
+    private void Update()
     {
-        myCamPos = transform.position;
+        Refresh();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Refresh()
     {
-        myCamPos.position = target.position + offset;
+        if(target == null)
+        {
+            Debug.LogWarning("Missing target ref !", this);
+
+            return;
+        }
+
+        // compute position
+        if(offsetPositionSpace == Space.Self)
+        {
+            transform.position = target.TransformPoint(offsetPosition);
+        }
+        else
+        {
+            transform.position = target.position + offsetPosition;
+        }
+
+        // compute rotation
+        if(lookAt)
+        {
+            transform.LookAt(target);
+        }
+        else
+        {
+            transform.rotation = target.rotation;
+        }
     }
 }
